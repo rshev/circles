@@ -23,6 +23,11 @@
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Qmb-lS-a59" secondAttribute="height" multiplier="1:1" id="Fil-lL-J10"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="orbitCount">
+                                        <integer key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
