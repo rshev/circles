@@ -25,15 +25,16 @@ class Circles: UIView {
     private var planet: CAShapeLayer?
     private var orbits: [CAShapeLayer] = []
     
-//    required init(coder aDecoder: NSCoder) {
-//        super.init(coder: aDecoder)
-//        updateDrawing()
-//    }
-//    
-//    override init(frame: CGRect) {
-//        super.init(frame: frame)
-//        updateDrawing()
-//    }
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setup()
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
+    }
+    
     
 //    override func drawRect(rect: CGRect) {
 //        super.drawRect(rect)
@@ -43,6 +44,11 @@ class Circles: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         updateDrawing()
+    }
+    
+    func setup() {
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: "tapRecognize:")
+        self.addGestureRecognizer(tapGestureRecognizer)
     }
     
 //    func resetLayers() {
@@ -92,13 +98,14 @@ class Circles: UIView {
             nextOrbitColor = nextOrbitColor.darkenColor(0.1)
         }
         
+        orbits.map { $0.removeAllAnimations() }
         if let orbit = orbits[safe: selectedOrbitNumber] where selectedOrbit {
             orbit.fillColor = selectedColor.CGColor
             let orbitAnim = CAKeyframeAnimation()
             orbitAnim.duration = 0.8
             orbitAnim.autoreverses = true
             orbitAnim.repeatCount = HUGE
-            orbitAnim.values = [ NSValue(CATransform3D: CATransform3DMakeScale(0.96, 0.96, 0)), NSValue(CATransform3D: CATransform3DMakeScale(1.06, 1.06, 0)) ]
+            orbitAnim.values = [ NSValue(CATransform3D: CATransform3DMakeScale(0.97, 0.97, 0)), NSValue(CATransform3D: CATransform3DMakeScale(1.07, 1.07, 0)) ]
             orbitAnim.keyTimes = [0, 1]
             orbitAnim.timingFunctions = [ CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut), CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut) ]
             orbit.addAnimation(orbitAnim, forKey: "transform")
@@ -110,6 +117,21 @@ class Circles: UIView {
         }
         planet?.fillColor = planetColor.CGColor
         planet?.path = UIBezierPath(arcCenter: center, radius: planetRadius, startAngle: CGFloat(0), endAngle: CGFloat(M_PI*2), clockwise: true).CGPath
+    }
+    
+    func tapRecognize(gestureRecognizer: UITapGestureRecognizer) {
+        if gestureRecognizer.state != .Ended { return }
+        let point = gestureRecognizer.locationInView(self)
+        for orbitIndex in reverse(0..<orbitCount) {
+            if let orbit = orbits[safe: orbitIndex] {
+                if CGPathContainsPoint(orbit.path, nil, point, false) {
+                    selectedOrbit = true
+                    selectedOrbitNumber = orbitIndex
+                    updateDrawing()
+                    break
+                }
+            }
+        }
     }
     
 }
