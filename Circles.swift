@@ -14,17 +14,15 @@ class Circles: UIView {
 
     @IBInspectable var orbitCount: Int = 5
     @IBInspectable var orbitColor: UIColor = UIColor(white: 0.9, alpha: 1.0)
-//    @IBInspectable var orbitThicknessPercentage: CGFloat = 1
     @IBInspectable var planetSizePercentage: CGFloat = 7
     @IBInspectable var planetColor: UIColor = UIColor.blackColor()
-//    @IBInspectable var satelliteSizePercentage: CGFloat = 5
-//    @IBInspectable var satelliteColor: UIColor = UIColor.yellowColor()
+    @IBInspectable var selectedOrbit: Int?
+    @IBInspectable var selectedColor: UIColor = UIColor.redColor()
 
-    let animDuration = 0.1
+//    let animDuration = 0.1
     
-    var planet: CAShapeLayer?
-    var orbits: [CAShapeLayer] = []
-//    var satellite: CAShapeLayer?
+    private var planet: CAShapeLayer?
+    private var orbits: [CAShapeLayer] = []
     
 //    required init(coder aDecoder: NSCoder) {
 //        super.init(coder: aDecoder)
@@ -46,15 +44,13 @@ class Circles: UIView {
         updateDrawing()
     }
     
-    func resetLayers() {
-        planet?.removeFromSuperlayer()
-        planet = nil
-//        satellite?.removeFromSuperlayer()
-//        satellite = nil
-        orbits.map { $0.removeFromSuperlayer() }
-        orbits.removeAll(keepCapacity: false)
-        updateDrawing()
-    }
+//    func resetLayers() {
+//        planet?.removeFromSuperlayer()
+//        planet = nil
+//        orbits.map { $0.removeFromSuperlayer() }
+//        orbits.removeAll(keepCapacity: false)
+//        updateDrawing()
+//    }
     
     func updateDrawing() {
         println(__FUNCTION__)
@@ -63,8 +59,10 @@ class Circles: UIView {
         if self.bounds.height < minDimension { minDimension = self.bounds.height }
         let center = CGPoint(x: self.bounds.width / 2, y: self.bounds.height / 2)
 
-        let orbitRadiusStep = (minDimension - (minDimension * planetSizePercentage / 100 * 2)) / CGFloat(orbitCount) / 2               // radius step
-        var animStep = animDuration
+        let planetRadius = minDimension * planetSizePercentage / 100
+        
+        let orbitRadiusStep = (minDimension - planetRadius*2) / CGFloat(orbitCount) / 2               // radius step
+//        var animStep = animDuration
         var nextOrbitColor = orbitColor
         var lastRadius = minDimension / 2
         
@@ -86,9 +84,7 @@ class Circles: UIView {
                 orbits.append(orbit!)
             }
             orbit?.fillColor = nextOrbitColor.CGColor
-            //            orbit?.strokeColor = orbitColor.CGColor
             orbit?.path = UIBezierPath(arcCenter: center, radius: lastRadius, startAngle: CGFloat(0), endAngle: CGFloat(M_PI*2), clockwise: true).CGPath
-//            orbit?.opacity = 0.0
             
             //            let orbitAnimGroup = CAAnimationGroup()
             //            let orbitAnim = CABasicAnimation(keyPath: "path")
@@ -103,12 +99,11 @@ class Circles: UIView {
             //            orbit?.addAnimation(orbitAnimGroup, forKey: "group")
             
             lastRadius -= orbitRadiusStep
-            animStep += animDuration
-            
+//            animStep += animDuration
             nextOrbitColor = nextOrbitColor.darkenColor(0.1)
-            println(nextOrbitColor)
-            
-            
+        }
+        
+        if let selectedOrbit = selectedOrbit, orbit = orbits[safe: selectedOrbit] {
             
         }
         
@@ -117,21 +112,7 @@ class Circles: UIView {
             self.layer.addSublayer(planet)
         }
         planet?.fillColor = planetColor.CGColor
-//        var lastRadius = minDimension * planetSizePercentage / 100
-        planet?.path = UIBezierPath(arcCenter: center, radius: minDimension * planetSizePercentage / 100, startAngle: CGFloat(0), endAngle: CGFloat(M_PI*2), clockwise: true).CGPath
-        
-//        let planetAnim = CABasicAnimation()
-//        planetAnim.fromValue = UIBezierPath(arcCenter: center, radius: CGFloat(0.1), startAngle: CGFloat(0), endAngle: CGFloat(M_PI*2), clockwise: true).CGPath
-//        planetAnim.duration = animDuration
-//        planet?.addAnimation(planetAnim, forKey: "path")
-        
-        
-        
-
-        
-        
-        
-        
+        planet?.path = UIBezierPath(arcCenter: center, radius: planetRadius, startAngle: CGFloat(0), endAngle: CGFloat(M_PI*2), clockwise: true).CGPath
     }
     
 }
