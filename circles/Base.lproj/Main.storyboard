@@ -3,6 +3,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -14,28 +15,39 @@
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qmb-lS-a59" customClass="Circles" customModule="circles" customModuleProvider="target">
-                                <rect key="frame" x="50" y="50" width="500" height="500"/>
+                                <rect key="frame" x="16" y="162" width="343" height="343"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Qmb-lS-a59" secondAttribute="height" multiplier="1:1" id="Fil-lL-J10"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="orbitCount">
-                                        <integer key="value" value="5"/>
+                                        <integer key="value" value="3"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="planetSizePercentage">
+                                        <real key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="orbitColor">
+                                        <color key="value" white="0.89875445449561386" alpha="1" colorSpace="calibratedWhite"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="planetColor">
+                                        <color key="value" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="Qmb-lS-a59" secondAttribute="trailing" constant="50" id="Bz4-AI-nKR"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Qmb-lS-a59" secondAttribute="trailing" id="Bz4-AI-nKR"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Qmb-lS-a59" secondAttribute="bottom" id="DS5-gn-Ej7"/>
                             <constraint firstAttribute="centerY" secondItem="Qmb-lS-a59" secondAttribute="centerY" id="KmG-JX-h8F"/>
-                            <constraint firstItem="Qmb-lS-a59" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="50" id="M2H-U6-AVb"/>
+                            <constraint firstItem="Qmb-lS-a59" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="M2H-U6-AVb"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="Qmb-lS-a59" secondAttribute="bottom" id="MFF-uW-Qct"/>
+                            <constraint firstItem="Qmb-lS-a59" firstAttribute="top" relation="greaterThanOrEqual" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="akU-mL-syN"/>
                             <constraint firstItem="Qmb-lS-a59" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="kjY-6x-Igf"/>
                             <constraint firstAttribute="width" secondItem="Qmb-lS-a59" secondAttribute="height" multiplier="1:1" id="opv-jK-PRS"/>
                         </constraints>
@@ -47,6 +59,7 @@
                             </mask>
                         </variation>
                     </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
