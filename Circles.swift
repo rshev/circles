@@ -16,7 +16,8 @@ class Circles: UIView {
     @IBInspectable var orbitColor: UIColor = UIColor(white: 0.9, alpha: 1.0)
     @IBInspectable var planetSizePercentage: CGFloat = 7
     @IBInspectable var planetColor: UIColor = UIColor.blackColor()
-    @IBInspectable var selectedOrbit: Int?
+    @IBInspectable var selectedOrbit: Bool = false
+    @IBInspectable var selectedOrbitNumber: Int = 1
     @IBInspectable var selectedColor: UIColor = UIColor.redColor()
 
 //    let animDuration = 0.1
@@ -62,7 +63,6 @@ class Circles: UIView {
         let planetRadius = minDimension * planetSizePercentage / 100
         
         let orbitRadiusStep = (minDimension - planetRadius*2) / CGFloat(orbitCount) / 2               // radius step
-//        var animStep = animDuration
         var nextOrbitColor = orbitColor
         var lastRadius = minDimension / 2
         
@@ -83,28 +83,25 @@ class Circles: UIView {
                 self.layer.addSublayer(orbit)
                 orbits.append(orbit!)
             }
+            orbit?.frame = self.bounds
             orbit?.fillColor = nextOrbitColor.CGColor
             orbit?.path = UIBezierPath(arcCenter: center, radius: lastRadius, startAngle: CGFloat(0), endAngle: CGFloat(M_PI*2), clockwise: true).CGPath
             
-            //            let orbitAnimGroup = CAAnimationGroup()
-            //            let orbitAnim = CABasicAnimation(keyPath: "path")
-            //            orbitAnim.fromValue = UIBezierPath(arcCenter: center, radius: lastRadius, startAngle: CGFloat(0), endAngle: CGFloat(M_PI*2), clockwise: true).CGPath
-            //            let orbitAnimOpacity = CABasicAnimation(keyPath: "opacity")
-            //            orbitAnimOpacity.toValue = 1.0
-            //            orbitAnimGroup.removedOnCompletion = false
-            //            orbitAnimGroup.fillMode = kCAFillModeForwards
-            //            orbitAnimGroup.animations = [orbitAnim, orbitAnimOpacity]
-            //            orbitAnimGroup.duration = animDuration
-            //            orbitAnimGroup.beginTime = CACurrentMediaTime() + animStep
-            //            orbit?.addAnimation(orbitAnimGroup, forKey: "group")
             
             lastRadius -= orbitRadiusStep
-//            animStep += animDuration
             nextOrbitColor = nextOrbitColor.darkenColor(0.1)
         }
         
-        if let selectedOrbit = selectedOrbit, orbit = orbits[safe: selectedOrbit] {
-            
+        if let orbit = orbits[safe: selectedOrbitNumber] where selectedOrbit {
+            orbit.fillColor = selectedColor.CGColor
+            let orbitAnim = CAKeyframeAnimation()
+            orbitAnim.duration = 0.8
+            orbitAnim.autoreverses = true
+            orbitAnim.repeatCount = HUGE
+            orbitAnim.values = [ NSValue(CATransform3D: CATransform3DMakeScale(0.96, 0.96, 0)), NSValue(CATransform3D: CATransform3DMakeScale(1.06, 1.06, 0)) ]
+            orbitAnim.keyTimes = [0, 1]
+            orbitAnim.timingFunctions = [ CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut), CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut) ]
+            orbit.addAnimation(orbitAnim, forKey: "transform")
         }
         
         if planet == nil {
