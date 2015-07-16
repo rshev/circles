@@ -19,6 +19,7 @@ class Circles: UIView {
     @IBInspectable var selectedOrbit: Bool = false
     @IBInspectable var selectedOrbitNumber: Int = 1
     @IBInspectable var selectedColor: UIColor = UIColor.redColor()
+    @IBInspectable var allowTapSelect: Bool = true
 
 //    let animDuration = 0.1
     
@@ -47,6 +48,7 @@ class Circles: UIView {
     }
     
     func setup() {
+        if !allowTapSelect { return }
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: "tapRecognize:")
         self.addGestureRecognizer(tapGestureRecognizer)
     }
@@ -99,7 +101,8 @@ class Circles: UIView {
         }
         
         orbits.map { $0.removeAllAnimations() }
-        if let orbit = orbits[safe: selectedOrbitNumber] where selectedOrbit {
+        let orbitNum = orbitCount - 1 - selectedOrbitNumber
+        if let orbit = orbits[safe: orbitNum] where selectedOrbit {
             orbit.fillColor = selectedColor.CGColor
             let orbitAnim = CAKeyframeAnimation()
             orbitAnim.duration = 0.8
@@ -126,7 +129,8 @@ class Circles: UIView {
             if let orbit = orbits[safe: orbitIndex] {
                 if CGPathContainsPoint(orbit.path, nil, point, false) {
                     selectedOrbit = true
-                    selectedOrbitNumber = orbitIndex
+                    let orbitNum = orbitCount - 1 - orbitIndex
+                    selectedOrbitNumber = orbitNum
                     updateDrawing()
                     break
                 }

@@ -26,7 +26,7 @@
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="orbitCount">
-                                        <integer key="value" value="3"/>
+                                        <integer key="value" value="4"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="planetSizePercentage">
                                         <real key="value" value="10"/>
@@ -39,7 +39,7 @@
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="selectedOrbit" value="YES"/>
                                     <userDefinedRuntimeAttribute type="number" keyPath="selectedOrbitNumber">
-                                        <integer key="value" value="1"/>
+                                        <integer key="value" value="3"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="selectedColor">
                                         <color key="value" red="1" green="0.68928101705750056" blue="0.69018640535053355" alpha="1" colorSpace="calibratedRGB"/>
