@@ -39,10 +39,13 @@
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="selectedOrbit" value="YES"/>
                                     <userDefinedRuntimeAttribute type="number" keyPath="selectedOrbitNumber">
-                                        <integer key="value" value="3"/>
+                                        <integer key="value" value="1"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="selectedColor">
-                                        <color key="value" red="1" green="0.68928101705750056" blue="0.69018640535053355" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="value" red="1" green="0.6892810171" blue="0.69018640539999998" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="selectionBiasPts">
+                                        <integer key="value" value="7"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>

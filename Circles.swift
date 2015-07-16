@@ -19,6 +19,7 @@ class Circles: UIView {
     @IBInspectable var selectedOrbit: Bool = false
     @IBInspectable var selectedOrbitNumber: Int = 1
     @IBInspectable var selectedColor: UIColor = UIColor.redColor()
+    @IBInspectable var selectionBiasPts: Int = 10
     @IBInspectable var allowTapSelect: Bool = true
 
 //    let animDuration = 0.1
@@ -64,8 +65,7 @@ class Circles: UIView {
     func updateDrawing() {
         println(__FUNCTION__)
 
-        var minDimension = self.bounds.width
-        if self.bounds.height < minDimension { minDimension = self.bounds.height }
+        let minDimension = self.bounds.width < self.bounds.height ? self.bounds.width : self.bounds.height
         let center = CGPoint(x: self.bounds.width / 2, y: self.bounds.height / 2)
 
         let planetRadius = minDimension * planetSizePercentage / 100
@@ -103,12 +103,16 @@ class Circles: UIView {
         orbits.map { $0.removeAllAnimations() }
         let orbitNum = orbitCount - 1 - selectedOrbitNumber
         if let orbit = orbits[safe: orbitNum] where selectedOrbit {
+            let boundingBox = CGPathGetBoundingBox(orbit.path)
+            let minBoundingDimension = boundingBox.width < boundingBox.height ? boundingBox.width : boundingBox.height
+
+            let selectionBiasPercentage = CGFloat(selectionBiasPts) / minBoundingDimension
             orbit.fillColor = selectedColor.CGColor
             let orbitAnim = CAKeyframeAnimation()
-            orbitAnim.duration = 0.8
+            orbitAnim.duration = 0.7
             orbitAnim.autoreverses = true
             orbitAnim.repeatCount = HUGE
-            orbitAnim.values = [ NSValue(CATransform3D: CATransform3DMakeScale(0.97, 0.97, 0)), NSValue(CATransform3D: CATransform3DMakeScale(1.07, 1.07, 0)) ]
+            orbitAnim.values = [ NSValue(CATransform3D: CATransform3DMakeScale(1 - selectionBiasPercentage * 0.5, 1 - selectionBiasPercentage * 0.5, 0)), NSValue(CATransform3D: CATransform3DMakeScale(1 + selectionBiasPercentage * 1, 1 + selectionBiasPercentage * 1, 0)) ]
             orbitAnim.keyTimes = [0, 1]
             orbitAnim.timingFunctions = [ CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut), CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut) ]
             orbit.addAnimation(orbitAnim, forKey: "transform")
