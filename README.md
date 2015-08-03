@@ -2,7 +2,7 @@
 
 A tappable view showing gradually changing tint circles with a central "planet", with a breathe-like animation.
 
-![demoAnim.gif]
+![demo](demoAnim.gif)
 
 A small experimental `Swift 1.2` project to play with `@IBDesignable` and `@IBInspectable`.
 
