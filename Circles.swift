@@ -16,20 +16,61 @@ protocol CirclesDelegate: class {
 @IBDesignable
 class Circles: UIView {
 
-    @IBInspectable var orbitCount: UInt = 5
-    @IBInspectable var orbitColor: UIColor = UIColor(white: 0.9, alpha: 1.0)
-    @IBInspectable var planetSizePercentage: CGFloat = 7
-    @IBInspectable var planetColor: UIColor = UIColor.blackColor()
-    @IBInspectable var selectedOrbit: Bool = false
-    @IBInspectable var selectedOrbitNumber: UInt = 1
-    @IBInspectable var selectedColor: UIColor = UIColor.redColor()
-    @IBInspectable var selectionBiasPts: UInt = 10
+    @IBInspectable var orbitCount: UInt = 5 {
+        didSet {
+            updateDrawing()
+        }
+    }
+    @IBInspectable var orbitColor: UIColor = UIColor(white: 0.9, alpha: 1.0) {
+        didSet {
+            updateDrawing()
+        }
+    }
+    @IBInspectable var orbitColorDarkenBy: CGFloat = 0.15 {
+        didSet {
+            updateDrawing()
+        }
+    }
+    @IBInspectable var planetSizePercentage: CGFloat = 7 {
+        didSet {
+            updateDrawing()
+        }
+    }
+    @IBInspectable var planetColor: UIColor = UIColor.blackColor() {
+        didSet {
+            updateDrawing()
+        }
+    }
+    @IBInspectable var selectedOrbit: Bool = false {
+        didSet {
+            updateDrawing()
+        }
+    }
+    @IBInspectable var selectedOrbitNumber: UInt = 1 {
+        didSet {
+            updateDrawing()
+        }
+    }
+    @IBInspectable var selectedColor: UIColor = UIColor.redColor() {
+        didSet {
+            updateDrawing()
+        }
+    }
+    @IBInspectable var selectionBiasPts: UInt = 10 {
+        didSet {
+            updateDrawing()
+        }
+    }
     @IBInspectable var allowTapSelect: Bool = true {
         willSet {
             tapGestureRecognizer.enabled = newValue
         }
     }
-    @IBInspectable var animDuration: Double = 0.7
+    @IBInspectable var animDuration: Double = 0.7 {
+        didSet {
+            updateDrawing()
+        }
+    }
 
     weak var delegate: CirclesDelegate?
     
@@ -85,7 +126,7 @@ class Circles: UIView {
             
             
             lastRadius -= orbitRadiusStep
-            nextOrbitColor = nextOrbitColor.darkenColor(0.1)
+            nextOrbitColor = nextOrbitColor.darken(amount: orbitColorDarkenBy)
         }
         
         orbits.map { $0.removeAllAnimations() }
