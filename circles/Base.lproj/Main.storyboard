@@ -49,6 +49,12 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WAv-lS-JvC">
+                                <rect key="frame" x="37" y="46" width="51" height="31"/>
+                                <connections>
+                                    <action selector="tapSwitch:" destination="vXZ-lx-hvc" eventType="valueChanged" id="wmd-Zq-Gwk"/>
+                                </connections>
+                            </switch>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>

@@ -24,13 +24,21 @@ class Circles: UIView {
     @IBInspectable var selectedOrbitNumber: UInt = 1
     @IBInspectable var selectedColor: UIColor = UIColor.redColor()
     @IBInspectable var selectionBiasPts: UInt = 10
-    @IBInspectable var allowTapSelect: Bool = true
+    @IBInspectable var allowTapSelect: Bool = true {
+        willSet {
+            tapGestureRecognizer.enabled = newValue
+        }
+    }
     @IBInspectable var animDuration: Double = 0.7
 
     weak var delegate: CirclesDelegate?
     
     private var planet: CAShapeLayer?
     private var orbits: [CAShapeLayer] = []
+    
+    private lazy var tapGestureRecognizer: UITapGestureRecognizer = {
+        return UITapGestureRecognizer(target: self, action: "tapRecognize:")
+    }()
     
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -47,13 +55,12 @@ class Circles: UIView {
         updateDrawing()
     }
     
-    func setup() {
-        if !allowTapSelect { return }
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: "tapRecognize:")
+    private func setup() {
         self.addGestureRecognizer(tapGestureRecognizer)
+        tapGestureRecognizer.enabled = allowTapSelect
     }
     
-    func updateDrawing() {
+    private func updateDrawing() {
 //        println(__FUNCTION__)
 
         let minDimension = self.bounds.width < self.bounds.height ? self.bounds.width : self.bounds.height

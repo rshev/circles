@@ -26,6 +26,9 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    @IBAction func tapSwitch(sender: UISwitch) {
+        circlesView.allowTapSelect = sender.on
+    }
 
 }
 
