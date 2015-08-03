@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import DynamicColor
 
 protocol CirclesDelegate: class {
     func circlesSelectedOrbit(circles: Circles, selectedOrbitNumber: UInt)
