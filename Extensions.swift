@@ -15,6 +15,11 @@ extension Array {
             ? self[index]
             : nil
     }
+
+    subscript (safe index: UInt) -> T? {
+        return self[safe: Int(index)]
+    }
+
 }
 
 

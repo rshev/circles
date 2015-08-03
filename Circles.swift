@@ -9,20 +9,25 @@
 import UIKit
 import DynamicColor
 
+protocol CirclesDelegate: class {
+    func circlesSelectedOrbit(circles: Circles, selectedOrbitNumber: UInt)
+}
+
 @IBDesignable
 class Circles: UIView {
 
-    @IBInspectable var orbitCount: Int = 5
+    @IBInspectable var orbitCount: UInt = 5
     @IBInspectable var orbitColor: UIColor = UIColor(white: 0.9, alpha: 1.0)
     @IBInspectable var planetSizePercentage: CGFloat = 7
     @IBInspectable var planetColor: UIColor = UIColor.blackColor()
     @IBInspectable var selectedOrbit: Bool = false
-    @IBInspectable var selectedOrbitNumber: Int = 1
+    @IBInspectable var selectedOrbitNumber: UInt = 1
     @IBInspectable var selectedColor: UIColor = UIColor.redColor()
-    @IBInspectable var selectionBiasPts: Int = 10
+    @IBInspectable var selectionBiasPts: UInt = 10
     @IBInspectable var allowTapSelect: Bool = true
+    @IBInspectable var animDuration: Double = 0.7
 
-//    let animDuration = 0.1
+    weak var delegate: CirclesDelegate?
     
     private var planet: CAShapeLayer?
     private var orbits: [CAShapeLayer] = []
@@ -37,12 +42,6 @@ class Circles: UIView {
         setup()
     }
     
-    
-//    override func drawRect(rect: CGRect) {
-//        super.drawRect(rect)
-//        updateDrawing()
-//    }
-    
     override func layoutSubviews() {
         super.layoutSubviews()
         updateDrawing()
@@ -54,16 +53,8 @@ class Circles: UIView {
         self.addGestureRecognizer(tapGestureRecognizer)
     }
     
-//    func resetLayers() {
-//        planet?.removeFromSuperlayer()
-//        planet = nil
-//        orbits.map { $0.removeFromSuperlayer() }
-//        orbits.removeAll(keepCapacity: false)
-//        updateDrawing()
-//    }
-    
     func updateDrawing() {
-        println(__FUNCTION__)
+//        println(__FUNCTION__)
 
         let minDimension = self.bounds.width < self.bounds.height ? self.bounds.width : self.bounds.height
         let center = CGPoint(x: self.bounds.width / 2, y: self.bounds.height / 2)
@@ -73,16 +64,6 @@ class Circles: UIView {
         let orbitRadiusStep = (minDimension - planetRadius*2) / CGFloat(orbitCount) / 2               // radius step
         var nextOrbitColor = orbitColor
         var lastRadius = minDimension / 2
-        
-//        var whiteComponentOrbit: CGFloat = 0
-//        var whiteComponentPlanet: CGFloat = 0
-//        let colorStepWhiteComponent: CGFloat
-//        if orbitColor.getWhite(&whiteComponentOrbit, alpha: nil) && planetColor.getWhite(&whiteComponentPlanet, alpha: nil) {
-//            colorStepWhiteComponent = abs(whiteComponentPlanet - whiteComponentOrbit) / CGFloat(orbitCount)
-//        } else {
-//            colorStepWhiteComponent = 0.1
-//        }
-//        println(colorStepWhiteComponent)
         
         for orbitIndex in 0..<orbitCount {
             var orbit = orbits[safe: orbitIndex]
@@ -109,7 +90,7 @@ class Circles: UIView {
             let selectionBiasPercentage = CGFloat(selectionBiasPts) / minBoundingDimension
             orbit.fillColor = selectedColor.CGColor
             let orbitAnim = CAKeyframeAnimation()
-            orbitAnim.duration = 0.7
+            orbitAnim.duration = animDuration
             orbitAnim.autoreverses = true
             orbitAnim.repeatCount = HUGE
             orbitAnim.values = [ NSValue(CATransform3D: CATransform3DMakeScale(1 - selectionBiasPercentage * 0.5, 1 - selectionBiasPercentage * 0.5, 0)), NSValue(CATransform3D: CATransform3DMakeScale(1 + selectionBiasPercentage * 1, 1 + selectionBiasPercentage * 1, 0)) ]
@@ -135,6 +116,7 @@ class Circles: UIView {
                     selectedOrbit = true
                     let orbitNum = orbitCount - 1 - orbitIndex
                     selectedOrbitNumber = orbitNum
+                    self.delegate?.circlesSelectedOrbit(self, selectedOrbitNumber: selectedOrbitNumber)
                     updateDrawing()
                     break
                 }

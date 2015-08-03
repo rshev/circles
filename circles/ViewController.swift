@@ -10,6 +10,12 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var circlesView: Circles! {
+        didSet {
+            circlesView.delegate = self
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -23,3 +29,8 @@ class ViewController: UIViewController {
 
 }
 
+extension ViewController: CirclesDelegate {
+    func circlesSelectedOrbit(circles: Circles, selectedOrbitNumber: UInt) {
+        println(selectedOrbitNumber)
+    }
+}
